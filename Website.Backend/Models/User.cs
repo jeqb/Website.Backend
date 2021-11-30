@@ -10,8 +10,6 @@
 
         public string PasswordHash { get; set; }
 
-        public bool IsDeleted { get; set; }
-
         public DateTimeOffset CreatedDate { get; set; }
 
         public DateTimeOffset UpdatedDate { get; set; }

@@ -10,6 +10,11 @@ namespace Website.Backend.Test.Mock
 {
     internal class MockRepositoryFactory : IRepositoryFactory
     {
+        public IRepository<Message> CreateMessageRepository()
+        {
+            throw new NotImplementedException();
+        }
+
         public IRepository<User> CreateUserRepository()
         {
             throw new NotImplementedException();

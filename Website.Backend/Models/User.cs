@@ -10,6 +10,8 @@
 
         public string PasswordHash { get; set; }
 
+        public string Salt { get; set; }
+
         public DateTimeOffset CreatedDate { get; set; }
 
         public DateTimeOffset UpdatedDate { get; set; }

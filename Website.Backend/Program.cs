@@ -41,11 +41,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+// order matters
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseAuthentication();
+app.UseHttpsRedirection();
 
 app.MapControllers();
 

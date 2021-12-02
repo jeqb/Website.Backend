@@ -22,7 +22,33 @@ namespace Website.Backend.Repositories
 
         public async Task<IEnumerable<Message>> GetAll()
         {
-            throw new NotImplementedException();
+            return new List<Message>
+            {
+                new Message
+                {
+                    Id = 1,
+                    Name = "Joe",
+                    Email = "joe@foo.com",
+                    Content = "YOu SUCK!!!",
+                    Created = DateTime.Now,
+                },
+                new Message
+                {
+                    Id = 2,
+                    Name = "Bob",
+                    Email = "bob@foo.com",
+                    Content = "YOu SUCK!!!",
+                    Created = DateTime.Now,
+                },
+                new Message
+                {
+                    Id = 3,
+                    Name = "Billy",
+                    Email = "billy@foo.com",
+                    Content = "YOu SUCK!!!",
+                    Created = DateTime.Now,
+                }
+            };
         }
 
         public async Task<Message> GetById(int id)

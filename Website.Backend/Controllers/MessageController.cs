@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Website.Backend.Models;
 using Website.Backend.Repositories;
 
@@ -6,6 +7,7 @@ using Website.Backend.Repositories;
 
 namespace Website.Backend.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MessageController : ControllerBase
@@ -33,16 +35,10 @@ namespace Website.Backend.Controllers
 
         // POST api/<MessageController>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<Message> Post([FromBody] Message message)
         {
             return await _repository.Create(message);
-        }
-
-        // PUT api/<MessageController>/5
-        [HttpPut("{id}")]
-        public async Task<Message> Put([FromBody] Message message)
-        {
-            return await _repository.Update(message);
         }
 
         // DELETE api/<MessageController>/5

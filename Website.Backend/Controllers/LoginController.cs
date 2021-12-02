@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Website.Backend.Models;
+using Website.Backend.Repositories;
 
 namespace Website.Backend.Controllers
 {
@@ -16,20 +17,24 @@ namespace Website.Backend.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private IConfiguration _config;
+        private readonly IConfiguration _config;
 
-        public LoginController(IConfiguration config)
+        private readonly IUserRepository _userRepository;
+
+        public LoginController(IConfiguration config, IRepositoryFactory repositoryFactory)
         {
             _config = config;
+
+            _userRepository = repositoryFactory.CreateUserRepository();
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody]LoginCredentials login)
+        public async Task<IActionResult> Login([FromBody]LoginCredentials login)
         {
             IActionResult response = Unauthorized();
 
-            User user = AuthenticateUser(login);
+            User user = await _userRepository.GetUserByEmail(login.EmailAddress);
 
             if (user != null)
             {
@@ -38,23 +43,6 @@ namespace Website.Backend.Controllers
             }
 
             return response;
-        }
-
-        private User AuthenticateUser(LoginCredentials login)
-        {
-            User user = null;
-
-            // TODO: rework this for prod
-            if (login.EmailAddress == "James")
-            {
-                user = new User
-                {
-                    EmailAddress = login.EmailAddress,
-                    CreatedDate = DateTime.Now,
-                };
-            }
-
-            return user;
         }
 
         private string GenerateJSONWebToken(User userInfo)

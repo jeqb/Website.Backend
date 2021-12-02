@@ -15,7 +15,7 @@ namespace Website.Backend.Repositories
             return new MessageRepository();
         }
 
-        public IRepository<User> CreateUserRepository()
+        public IUserRepository CreateUserRepository()
         {
             return new UserRepository();
         }

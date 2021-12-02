@@ -4,7 +4,7 @@ namespace Website.Backend.Repositories
 {
     public interface IRepositoryFactory
     {
-        public IRepository<User> CreateUserRepository();
+        public IUserRepository CreateUserRepository();
 
         public IRepository<Message> CreateMessageRepository();
     }

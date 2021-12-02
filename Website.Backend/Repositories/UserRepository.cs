@@ -2,7 +2,7 @@
 
 namespace Website.Backend.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : IUserRepository
     {
         // TODO: inject database connection here.
         public UserRepository()
@@ -33,6 +33,17 @@ namespace Website.Backend.Repositories
         public async Task Delete(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            Task.Yield();
+
+            return new User
+            {
+                EmailAddress = email,
+                CreatedDate = DateTime.Now,
+            };
         }
     }
 }

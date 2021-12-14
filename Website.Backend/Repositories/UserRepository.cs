@@ -4,6 +4,17 @@ namespace Website.Backend.Repositories
 {
     public class UserRepository : IUserRepository
     {
+        private readonly List<User> _users = new List<User>
+        {
+            new User
+            {
+                Id = 1,
+                EmailAddress = "bob@foo.com",
+
+                CreatedDate = DateTime.Now,
+            }
+        };
+
         // TODO: inject database connection here.
         public UserRepository()
         {

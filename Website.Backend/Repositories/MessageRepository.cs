@@ -12,7 +12,9 @@ namespace Website.Backend.Repositories
 
         public async Task<Message> Create(Message entity)
         {
-            throw new NotImplementedException();
+            Task.Yield();
+
+            return entity;
         }
 
         public async Task Delete(int id)

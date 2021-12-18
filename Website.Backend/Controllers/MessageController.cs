@@ -9,6 +9,7 @@ namespace Website.Backend.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class MessageController : ControllerBase
     {
@@ -21,31 +22,43 @@ namespace Website.Backend.Controllers
 
         // GET: api/<MessageController>
         [HttpGet]
-        public async Task<IEnumerable<Message>> Get()
+        [ProducesResponseType(typeof(IEnumerable<Message>), 200)]
+        public async Task<IActionResult> Get()
         {
-            return await _repository.GetAll();
+            IEnumerable<Message> messages = await _repository.GetAll();
+
+            return Ok(messages);
         }
 
         // GET api/<MessageController>/5
         [HttpGet("{id}")]
-        public async Task<Message> Get(int id)
+        [ProducesResponseType(typeof(Message), 200)]
+        public async Task<IActionResult> Get(int id)
         {
-            return await _repository.GetById(id);
+            Message message = await _repository.GetById(id);
+
+            return Ok(message);
         }
 
         // POST api/<MessageController>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<Message> Post([FromBody] Message message)
+        [ProducesResponseType(typeof(Message), 201)]
+        public async Task<IActionResult> Post([FromBody] Message message)
         {
-            return await _repository.Create(message);
+            Message createdMessage = await _repository.Create(message);
+
+            return Created("api/Message", message);
         }
 
         // DELETE api/<MessageController>/5
         [HttpDelete("{id}")]
-        public async Task Delete(int id)
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> Delete(int id)
         {
             await _repository.Delete(id);
+
+            return Ok();
         }
     }
 }

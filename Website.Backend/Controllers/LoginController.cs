@@ -12,14 +12,10 @@ namespace Website.Backend.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IConfiguration _config;
-
         private readonly ILoginService _loginService;
 
         public LoginController(IConfiguration config, ILoginService loginService)
         {
-            _config = config;
-
             _loginService = loginService;
         }
 

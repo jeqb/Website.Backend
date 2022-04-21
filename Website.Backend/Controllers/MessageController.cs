@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Website.Backend.Domain;
+using Website.Backend.Domain.Repositories.Interfaces;
 using Website.Backend.Models;
-using Website.Backend.Repositories;
+using System.Linq;
+using Website.Backend.Extensions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,7 +16,7 @@ namespace Website.Backend.Controllers
     [ApiController]
     public class MessageController : ControllerBase
     {
-        private readonly IRepository<Message> _repository;
+        private readonly IRepository<MessageDomain> _repository;
         
         public MessageController(IRepositoryFactory repositoryFactory)
         {
@@ -25,9 +28,13 @@ namespace Website.Backend.Controllers
         [ProducesResponseType(typeof(IEnumerable<Message>), 200)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<Message> messages = await _repository.GetAll();
+            IEnumerable<MessageDomain> messages = await _repository.GetAll();
 
-            return Ok(messages);
+            IEnumerable<Message> response = messages
+                                            .Select((message) => message.ToModel()
+                                            );
+
+            return Ok(response);
         }
 
         // GET api/<MessageController>/5
@@ -35,9 +42,9 @@ namespace Website.Backend.Controllers
         [ProducesResponseType(typeof(Message), 200)]
         public async Task<IActionResult> Get(int id)
         {
-            Message message = await _repository.GetById(id);
+            MessageDomain message = await _repository.GetById(id);
 
-            return Ok(message);
+            return Ok(message.ToModel());
         }
 
         // POST api/<MessageController>
@@ -46,9 +53,9 @@ namespace Website.Backend.Controllers
         [ProducesResponseType(typeof(Message), 201)]
         public async Task<IActionResult> Post([FromBody] Message message)
         {
-            Message createdMessage = await _repository.Create(message);
+            MessageDomain createdMessage = await _repository.Create(message.ToDomain());
 
-            return Created("api/Message", message);
+            return Created("api/Message", createdMessage.ToModel());
         }
 
         // DELETE api/<MessageController>/5

@@ -1,17 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Website.Backend.Models;
-using Website.Backend.Repositories;
+using Website.Backend.Services.Interfaces;
 
 namespace Website.Backend.Controllers
 {
     /// <summary>
-    /// https://www.c-sharpcorner.com/article/jwt-json-web-token-authentication-in-asp-net-core/
+    /// Responsible for issuing JWT tokens
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
@@ -19,13 +14,13 @@ namespace Website.Backend.Controllers
     {
         private readonly IConfiguration _config;
 
-        private readonly IUserRepository _userRepository;
+        private readonly ILoginService _loginService;
 
-        public LoginController(IConfiguration config, IRepositoryFactory repositoryFactory)
+        public LoginController(IConfiguration config, ILoginService loginService)
         {
             _config = config;
 
-            _userRepository = repositoryFactory.CreateUserRepository();
+            _loginService = loginService;
         }
 
         [AllowAnonymous]
@@ -34,35 +29,16 @@ namespace Website.Backend.Controllers
         {
             IActionResult response = Unauthorized();
 
-            User user = await _userRepository.GetUserByEmail(login.EmailAddress);
+            User user = await _loginService.AuthenticateUserCredentials(login);
 
             if (user != null)
             {
-                var tokenString = GenerateJSONWebToken(user);
+                var tokenString = await _loginService.GenerateJsonWebToken(user);
+                
                 response = Ok(new { token = tokenString });
             }
 
             return response;
-        }
-
-        private string GenerateJSONWebToken(User userInfo)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Email, userInfo.EmailAddress),
-                new Claim("DateOfJoining", userInfo.CreatedDate.ToString("yyyy-MM-dd")),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Issuer"],
-                claims,
-                expires: DateTime.Now.AddMinutes(120),
-                signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

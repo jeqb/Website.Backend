@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Website.Backend.Repositories;
+using Website.Backend.Domain.Repositories;
+using Website.Backend.Domain.Repositories.Interfaces;
+using Website.Backend.Services;
+using Website.Backend.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +45,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
-builder.Services.AddSingleton<IRepositoryFactory>(new RepositoryFactory());
+builder.Services.AddSingleton<IRepositoryFactory, RepositoryFactory>();
+
+builder.Services.AddSingleton<ILoginService, LoginService>();
 
 var app = builder.Build();
 

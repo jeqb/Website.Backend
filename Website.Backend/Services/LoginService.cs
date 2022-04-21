@@ -18,11 +18,11 @@ namespace Website.Backend.Services
 
         private readonly IUserRepository _userRepository;
 
-        public LoginService(string key, string issuer, IRepositoryFactory repositoryFactory)
+        public LoginService(IConfiguration config, IRepositoryFactory repositoryFactory)
         {
-            _key = key;
+            _key = config["Jwt:Key"];
 
-            _issuer = issuer;
+            _issuer = config["Jwt:Issuer"];
 
             _userRepository = repositoryFactory.CreateUserRepository();
         }
@@ -51,8 +51,10 @@ namespace Website.Backend.Services
             }
         }
 
-        public Task<string> GenerateJsonWebToken(User userInfo)
+        public async Task<string> GenerateJsonWebToken(User userInfo)
         {
+            await Task.Yield();
+
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -68,9 +70,7 @@ namespace Website.Backend.Services
                 expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: credentials);
 
-            return Task.FromResult(
-                new JwtSecurityTokenHandler().WriteToken(token)
-                );
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

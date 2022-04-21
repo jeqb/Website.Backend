@@ -14,7 +14,7 @@ namespace Website.Backend.Controllers
     {
         private readonly ILoginService _loginService;
 
-        public LoginController(IConfiguration config, ILoginService loginService)
+        public LoginController(ILoginService loginService)
         {
             _loginService = loginService;
         }

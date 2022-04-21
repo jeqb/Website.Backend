@@ -49,6 +49,8 @@ builder.Services.AddSingleton<IRepositoryFactory, RepositoryFactory>();
 
 builder.Services.AddSingleton<ILoginService, LoginService>();
 
+builder.Services.AddSingleton<IMessageService, MessageService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -42,7 +42,7 @@ namespace Website.Backend.Services
             {
                 return new UserModel
                 {
-                    Id = 0
+                    Id = Guid.NewGuid(),
                 };
             }
             else

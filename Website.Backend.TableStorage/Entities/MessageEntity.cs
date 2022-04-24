@@ -29,6 +29,8 @@ namespace Website.Backend.TableStorage.Entities
 
         public bool IsRead { get; set; }
 
-        public DateTimeOffset? CreatedDateTime { get; set; }
+        public DateTimeOffset CreatedDateTime { get; set; }
+
+        public DateTimeOffset UpdatedDateTime { get; set; }
     }
 }

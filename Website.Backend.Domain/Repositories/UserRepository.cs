@@ -10,10 +10,10 @@ namespace Website.Backend.Domain.Repositories
         {
             new User
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 EmailAddress = "bob@foo.com",
 
-                CreatedDate = DateTime.Now,
+                CreatedDateTime = DateTime.Now,
             }
         };
 
@@ -57,7 +57,7 @@ namespace Website.Backend.Domain.Repositories
             return new User
             {
                 EmailAddress = email,
-                CreatedDate = DateTime.Now,
+                CreatedDateTime = DateTime.Now,
             };
         }
     }

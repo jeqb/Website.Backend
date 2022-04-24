@@ -2,13 +2,13 @@
 {
     public class MessageModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = String.Empty;
 
-        public string Email { get; set; }
+        public string Email { get; set; } = String.Empty;
 
-        public string Content { get; set; }
+        public string Content { get; set; } = String.Empty;
 
         public DateTimeOffset Created { get; set; }
     }

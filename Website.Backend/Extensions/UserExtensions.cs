@@ -13,8 +13,8 @@ namespace Website.Backend.Extensions
                 EmailAddress = domainModel.EmailAddress,
                 PasswordHash = domainModel.PasswordHash,
                 Salt = domainModel.Salt,
-                CreatedDate = domainModel.CreatedDate,
-                UpdatedDate = domainModel.UpdatedDate,
+                CreatedDate = domainModel.CreatedDateTime,
+                UpdatedDate = domainModel.UpdatedDateTime,
             };
         }
     }

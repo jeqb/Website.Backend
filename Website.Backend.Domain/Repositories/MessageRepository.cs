@@ -28,27 +28,27 @@ namespace Website.Backend.Domain.Repositories
             {
                 new Message
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     Name = "Joe",
                     Email = "joe@foo.com",
                     Content = "YOu SUCK!!!",
-                    Created = DateTime.Now,
+                    CreatedDateTime = DateTime.Now,
                 },
                 new Message
                 {
-                    Id = 2,
+                    Id = Guid.NewGuid(),
                     Name = "Bob",
                     Email = "bob@foo.com",
                     Content = "YOu SUCK!!!",
-                    Created = DateTime.Now,
+                    CreatedDateTime = DateTime.Now,
                 },
                 new Message
                 {
-                    Id = 3,
+                    Id = Guid.NewGuid(),
                     Name = "Billy",
                     Email = "billy@foo.com",
                     Content = "YOu SUCK!!!",
-                    Created = DateTime.Now,
+                    CreatedDateTime = DateTime.Now,
                 }
             };
         }

@@ -5,9 +5,9 @@ namespace Website.Backend.Extensions
 {
     public static class UserExtensions
     {
-        public static User ToModel(this UserDomain domainModel)
+        public static UserModel ToModel(this UserDomain domainModel)
         {
-            return new User
+            return new UserModel
             {
                 Id = domainModel.Id,
                 EmailAddress = domainModel.EmailAddress,

@@ -15,7 +15,7 @@ namespace Website.Backend.Services
             _messageRepository = repositoryFactory.CreateMessageRepository();
         }
 
-        public async Task<Message> Create(Message entity)
+        public async Task<MessageModel> Create(MessageModel entity)
         {
             MessageDomain createdModel = await _messageRepository.Create(entity.ToDomain());
 
@@ -27,7 +27,7 @@ namespace Website.Backend.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Message>> GetAll()
+        public async Task<IEnumerable<MessageModel>> GetAll()
         {
             IEnumerable<MessageDomain> results = await _messageRepository.GetAll();
 
@@ -36,12 +36,12 @@ namespace Website.Backend.Services
                 );
         }
 
-        public async Task<Message> GetById(int id)
+        public async Task<MessageModel> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Message> Update(Message entity)
+        public async Task<MessageModel> Update(MessageModel entity)
         {
             throw new NotImplementedException();
         }

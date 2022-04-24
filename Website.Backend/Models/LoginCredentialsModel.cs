@@ -1,6 +1,6 @@
 ﻿namespace Website.Backend.Models
 {
-    public class LoginCredentials
+    public class LoginCredentialsModel
     {
         public string EmailAddress { get; set; }
 

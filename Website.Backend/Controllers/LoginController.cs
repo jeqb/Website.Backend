@@ -21,11 +21,11 @@ namespace Website.Backend.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]LoginCredentials login)
+        public async Task<IActionResult> Login([FromBody]LoginCredentialsModel login)
         {
             IActionResult response = Unauthorized();
 
-            User user = await _loginService.AuthenticateUserCredentials(login);
+            UserModel user = await _loginService.AuthenticateUserCredentials(login);
 
             if (user != null)
             {

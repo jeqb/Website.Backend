@@ -1,6 +1,6 @@
 ﻿namespace Website.Backend.Models
 {
-    public class Message
+    public class MessageModel
     {
         public int Id { get; set; }
 

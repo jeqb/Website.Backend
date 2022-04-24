@@ -34,13 +34,13 @@ namespace Website.Backend.Services
         /// <param name="loginCredentials"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<User> AuthenticateUserCredentials(LoginCredentials loginCredentials)
+        public async Task<UserModel> AuthenticateUserCredentials(LoginCredentialsModel loginCredentials)
         {
             UserDomain user = await _userRepository.GetUserByEmail(loginCredentials.EmailAddress);
 
             if (user == null)
             {
-                return new User
+                return new UserModel
                 {
                     Id = 0
                 };
@@ -51,7 +51,7 @@ namespace Website.Backend.Services
             }
         }
 
-        public async Task<string> GenerateJsonWebToken(User userInfo)
+        public async Task<string> GenerateJsonWebToken(UserModel userInfo)
         {
             await Task.Yield();
 

@@ -4,13 +4,13 @@ namespace Website.Backend.Services.Interfaces
 {
     public interface IMessageService
     {
-        public Task<IEnumerable<Message>> GetAll();
+        public Task<IEnumerable<MessageModel>> GetAll();
 
-        public Task<Message> GetById(int id);
+        public Task<MessageModel> GetById(int id);
 
-        public Task<Message> Create(Message entity);
+        public Task<MessageModel> Create(MessageModel entity);
 
-        public Task<Message> Update(Message entity);
+        public Task<MessageModel> Update(MessageModel entity);
 
         public Task Delete(int id);
     }

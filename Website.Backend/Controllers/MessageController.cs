@@ -22,20 +22,20 @@ namespace Website.Backend.Controllers
 
         // GET: api/<MessageController>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Message>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<MessageModel>), 200)]
         public async Task<IActionResult> Get()
         {
-            IEnumerable<Message> messages = await _messageService.GetAll();
+            IEnumerable<MessageModel> messages = await _messageService.GetAll();
 
             return Ok(messages);
         }
 
         // GET api/<MessageController>/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Message), 200)]
+        [ProducesResponseType(typeof(MessageModel), 200)]
         public async Task<IActionResult> Get(int id)
         {
-            Message message = await _messageService.GetById(id);
+            MessageModel message = await _messageService.GetById(id);
 
             return Ok(message);
         }
@@ -43,10 +43,10 @@ namespace Website.Backend.Controllers
         // POST api/<MessageController>
         [HttpPost]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(Message), 201)]
-        public async Task<IActionResult> Post([FromBody] Message message)
+        [ProducesResponseType(typeof(MessageModel), 201)]
+        public async Task<IActionResult> Post([FromBody] MessageModel message)
         {
-            Message createdMessage = await _messageService.Create(message);
+            MessageModel createdMessage = await _messageService.Create(message);
 
             return Created("api/Message", createdMessage);
         }

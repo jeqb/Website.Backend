@@ -5,7 +5,7 @@ namespace Website.Backend.Extensions
 {
     public static class MessageExtensions
     {
-        public static MessageModel ToModel(this MessageDomain domainModel)
+        public static MessageModel ToModel(this Message domainModel)
         {
             return new MessageModel
             {
@@ -17,9 +17,9 @@ namespace Website.Backend.Extensions
             };
         }
 
-        public static MessageDomain ToDomain(this MessageModel model)
+        public static Message ToDomain(this MessageModel model)
         {
-            return new MessageDomain
+            return new Message
             {
                 Id = model.Id,
                 Name = model.Name,

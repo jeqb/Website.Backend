@@ -36,7 +36,7 @@ namespace Website.Backend.Services
         /// <exception cref="NotImplementedException"></exception>
         public async Task<UserModel> AuthenticateUserCredentials(LoginCredentialsModel loginCredentials)
         {
-            UserDomain user = await _userRepository.GetUserByEmail(loginCredentials.EmailAddress);
+            User user = await _userRepository.GetUserByEmail(loginCredentials.EmailAddress);
 
             if (user == null)
             {

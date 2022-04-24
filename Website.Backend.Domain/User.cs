@@ -1,6 +1,6 @@
 ﻿namespace Website.Backend.Domain
 {
-    public class UserDomain
+    public class User
     {
         public int Id { get; set; }
 

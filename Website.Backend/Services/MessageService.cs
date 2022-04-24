@@ -8,7 +8,7 @@ namespace Website.Backend.Services
 {
     public class MessageService : IMessageService
     {
-        private readonly IRepository<MessageDomain> _messageRepository;
+        private readonly IRepository<Message> _messageRepository;
 
         public MessageService(IRepositoryFactory repositoryFactory)
         {
@@ -17,7 +17,7 @@ namespace Website.Backend.Services
 
         public async Task<MessageModel> Create(MessageModel entity)
         {
-            MessageDomain createdModel = await _messageRepository.Create(entity.ToDomain());
+            Message createdModel = await _messageRepository.Create(entity.ToDomain());
 
             return createdModel.ToModel();
         }
@@ -29,7 +29,7 @@ namespace Website.Backend.Services
 
         public async Task<IEnumerable<MessageModel>> GetAll()
         {
-            IEnumerable<MessageDomain> results = await _messageRepository.GetAll();
+            IEnumerable<Message> results = await _messageRepository.GetAll();
 
             return results.Select(
                 (message) => message.ToModel()

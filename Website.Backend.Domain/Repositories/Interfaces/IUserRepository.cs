@@ -1,7 +1,7 @@
 ﻿namespace Website.Backend.Domain.Repositories.Interfaces
 {
-    public interface IUserRepository : IRepository<UserDomain>
+    public interface IUserRepository : IRepository<User>
     {
-        public Task<UserDomain> GetUserByEmail(string email);
+        public Task<User> GetUserByEmail(string email);
     }
 }

@@ -11,7 +11,7 @@ namespace Website.Backend.Domain.Repositories
 
         }
 
-        public IRepository<MessageDomain> CreateMessageRepository()
+        public IRepository<Message> CreateMessageRepository()
         {
             return new MessageRepository();
         }

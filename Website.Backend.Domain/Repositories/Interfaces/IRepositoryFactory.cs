@@ -4,6 +4,6 @@
     {
         public IUserRepository CreateUserRepository();
 
-        public IRepository<MessageDomain> CreateMessageRepository();
+        public IRepository<Message> CreateMessageRepository();
     }
 }

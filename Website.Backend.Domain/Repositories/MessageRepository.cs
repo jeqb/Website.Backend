@@ -2,7 +2,7 @@
 
 namespace Website.Backend.Domain.Repositories
 {
-    public class MessageRepository : IRepository<MessageDomain>
+    public class MessageRepository : IRepository<Message>
     {
         // TODO: inject database connection here.
         public MessageRepository()
@@ -10,7 +10,7 @@ namespace Website.Backend.Domain.Repositories
 
         }
 
-        public async Task<MessageDomain> Create(MessageDomain entity)
+        public async Task<Message> Create(Message entity)
         {
             Task.Yield();
 
@@ -22,11 +22,11 @@ namespace Website.Backend.Domain.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<MessageDomain>> GetAll()
+        public async Task<IEnumerable<Message>> GetAll()
         {
-            return new List<MessageDomain>
+            return new List<Message>
             {
-                new MessageDomain
+                new Message
                 {
                     Id = 1,
                     Name = "Joe",
@@ -34,7 +34,7 @@ namespace Website.Backend.Domain.Repositories
                     Content = "YOu SUCK!!!",
                     Created = DateTime.Now,
                 },
-                new MessageDomain
+                new Message
                 {
                     Id = 2,
                     Name = "Bob",
@@ -42,7 +42,7 @@ namespace Website.Backend.Domain.Repositories
                     Content = "YOu SUCK!!!",
                     Created = DateTime.Now,
                 },
-                new MessageDomain
+                new Message
                 {
                     Id = 3,
                     Name = "Billy",
@@ -53,12 +53,12 @@ namespace Website.Backend.Domain.Repositories
             };
         }
 
-        public async Task<MessageDomain> GetById(int id)
+        public async Task<Message> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<MessageDomain> Update(MessageDomain entity)
+        public async Task<Message> Update(Message entity)
         {
             throw new NotImplementedException();
         }

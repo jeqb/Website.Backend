@@ -6,9 +6,9 @@ namespace Website.Backend.Domain.Repositories
     {
         #region Private Properties
 
-        private readonly List<UserDomain> _users = new List<UserDomain>
+        private readonly List<User> _users = new List<User>
         {
-            new UserDomain
+            new User
             {
                 Id = 1,
                 EmailAddress = "bob@foo.com",
@@ -25,22 +25,22 @@ namespace Website.Backend.Domain.Repositories
 
         }
 
-        public async Task<IEnumerable<UserDomain>> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<UserDomain> GetById(int id)
+        public async Task<User> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<UserDomain> Create(UserDomain entity)
+        public async Task<User> Create(User entity)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<UserDomain> Update(UserDomain entity)
+        public async Task<User> Update(User entity)
         {
             throw new NotImplementedException();
         }
@@ -50,11 +50,11 @@ namespace Website.Backend.Domain.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<UserDomain> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
             Task.Yield();
 
-            return new UserDomain
+            return new User
             {
                 EmailAddress = email,
                 CreatedDate = DateTime.Now,

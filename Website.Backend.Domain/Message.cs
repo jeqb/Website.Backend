@@ -1,6 +1,6 @@
 ﻿namespace Website.Backend.Domain
 {
-    public class MessageDomain
+    public class Message
     {
         public int Id { get; set; }
 

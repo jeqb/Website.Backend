@@ -10,10 +10,15 @@ namespace Website.Backend.Controllers
     [ApiController]
     public class FinancialInformationController : ControllerBase
     {
+        private readonly ILogger<FinancialInformationController> _logger;
+
         private readonly IFinancialService _financialService;
 
-        public FinancialInformationController(IFinancialService financialService)
+        public FinancialInformationController(ILogger<FinancialInformationController> logger,
+            IFinancialService financialService)
         {
+            _logger = logger;
+
             _financialService = financialService;
         }
 

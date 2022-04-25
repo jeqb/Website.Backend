@@ -13,10 +13,14 @@ namespace Website.Backend.Controllers
     [ApiController]
     public class MessageController : ControllerBase
     {
+        private readonly ILogger<MessageController> _logger;
+
         private readonly IMessageService _messageService;
         
-        public MessageController(IMessageService messageService)
+        public MessageController(ILogger<MessageController> logger, IMessageService messageService)
         {
+            _logger = logger;
+
             _messageService = messageService;
         }
 

@@ -12,10 +12,14 @@ namespace Website.Backend.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
+        private readonly ILogger<LoginController> _logger;
+
         private readonly ILoginService _loginService;
 
-        public LoginController(ILoginService loginService)
+        public LoginController(ILogger<LoginController> logger, ILoginService loginService)
         {
+            _logger = logger;
+
             _loginService = loginService;
         }
 
@@ -23,6 +27,8 @@ namespace Website.Backend.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]LoginCredentialsModel login)
         {
+            _logger.LogInformation("LoginController.Login called");
+
             IActionResult response = Unauthorized();
 
             UserModel user = await _loginService.AuthenticateUserCredentials(login);

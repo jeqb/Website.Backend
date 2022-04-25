@@ -33,7 +33,19 @@ namespace Website.Backend.Infrastructure
             {
                 string responseContent = await response.Content.ReadAsStringAsync();
 
-                decimal price = ParseHtml(responseContent);
+                decimal price;
+
+                try
+                {
+                    price = ParseHtml(responseContent);
+                }
+                catch (Exception ex)
+                {
+                    // if this happens, the source HTML probably changed.
+                    _logger.LogInformation("YahooBtcPriceScraper could not parse the returned HTML");
+
+                    price = 0;
+                }
 
                 return price;
             }

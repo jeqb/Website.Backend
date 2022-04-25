@@ -57,6 +57,7 @@ builder.Services.AddSingleton<IFinancialService, FinancialService>();
 // infrastructure
 builder.Services.AddSingleton<ICryptoCurrencyService, YahooBtcPriceScraper>();
 builder.Services.AddSingleton<IGoldService, KitcoGoldSpotPriceScraper>();
+builder.Services.AddSingleton<IStockMarketService, MarketWatchScraper>();
 
 var app = builder.Build();
 

@@ -10,28 +10,36 @@ namespace Website.Backend.Services
 
         private readonly IGoldService _goldService;
 
-        public FinancialService(ICryptoCurrencyService cryptoCurrencyService, IGoldService goldService)
+        private readonly IStockMarketService _stockMarketService;
+
+        public FinancialService(ICryptoCurrencyService cryptoCurrencyService, IGoldService goldService,
+            IStockMarketService stockMarketService)
         {
             _cryptoCurrencyService = cryptoCurrencyService;
 
             _goldService = goldService;
+
+            _stockMarketService = stockMarketService;
         }
 
         public async Task<FinancialInformationModel> GetFinancialInformationAsync()
         {
             Task<decimal> bitcoinTask = _cryptoCurrencyService.GetBtcPriceInUsd();
             Task<decimal> goldTask = _goldService.GetSpotPriceInUsd();
+            Task<double> sp500Task = _stockMarketService.GetSp500PriceChangePercent();
 
-            await Task.WhenAll(bitcoinTask, goldTask);
+            await Task.WhenAll(bitcoinTask, goldTask, sp500Task);
 
             decimal bitcoinPrice = bitcoinTask.Result;
             decimal goldPrice = goldTask.Result;
+            double sp500PriceChangePercent = sp500Task.Result;
 
             return new FinancialInformationModel
             {
                 // reconsider decimal. maybe just use double.
                 BitcoinPrice = bitcoinPrice,
-                GoldSpotPrice = goldPrice
+                GoldSpotPrice = goldPrice,
+                Sp500PriceChangePercent = sp500PriceChangePercent
             };
         }
     }

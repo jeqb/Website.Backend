@@ -4,6 +4,9 @@ using Website.Backend.Infrastructure.Interfaces;
 
 namespace Website.Backend.Infrastructure
 {
+    /// <summary>
+    /// Scrapes MarketWatch.com for Stock Market type of data.
+    /// </summary>
     public class MarketWatchScraper : IStockMarketService
     {
         private const string _sp500Url = "https://www.marketwatch.com/investing/index/spx";
@@ -33,12 +36,29 @@ namespace Website.Backend.Infrastructure
             {
                 string responseContent = await response.Content.ReadAsStringAsync();
 
-                double priceChangePercent = ParseHtml(responseContent);
+                double priceChangePercent;
+
+                try
+                {
+                    priceChangePercent = ParseHtml(responseContent);
+                }
+                catch (Exception ex)
+                {
+                    // if this happens, the source HTML probably changed.
+                    _logger.LogInformation("MarketWatchScraper could not parse the returned HTML");
+
+                    priceChangePercent = 0;
+                }
 
                 return priceChangePercent;
             }
         }
 
+        /// <summary>
+        /// Specific to S&P500 page right now. could change in future.
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
         private double ParseHtml(string html)
         {
             HtmlDocument htmlDoc = new HtmlDocument();

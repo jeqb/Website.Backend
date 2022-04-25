@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.Extensions.Logging;
 using Website.Backend.Infrastructure.Interfaces;
 
 namespace Website.Backend.Infrastructure
@@ -7,10 +8,14 @@ namespace Website.Backend.Infrastructure
     {
         private const string _kitcoUrl = "https://www.kitco.com/charts/livegold.html";
 
+        private readonly ILogger<KitcoGoldSpotPriceScraper> _logger;
+
         private readonly HttpClient _httpClient;
 
-        public KitcoGoldSpotPriceScraper(HttpClient httpClient)
+        public KitcoGoldSpotPriceScraper(ILogger<KitcoGoldSpotPriceScraper> logger, HttpClient httpClient)
         {
+            _logger = logger;
+
             _httpClient = httpClient;
         }
 
@@ -18,11 +23,32 @@ namespace Website.Backend.Infrastructure
         {
             HttpResponseMessage response = await _httpClient.GetAsync(_kitcoUrl);
 
-            string htmlFile = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode != true)
+            {
+                _logger.LogInformation("KitcoGoldSpotPriceScraper could not retrieve gold spot price data.");
 
-            decimal price = ParseHtml(htmlFile);
+                return 0;
+            }
+            else
+            {
+                string htmlFile = await response.Content.ReadAsStringAsync();
 
-            return price;
+                decimal price;
+
+                try
+                {
+                    price = ParseHtml(htmlFile);
+                }
+                catch (Exception ex)
+                {
+                    // if this happens, the source HTML probably changed.
+                    _logger.LogInformation("KitcoGoldSpotPriceScraper could not parse the returned HTML");
+
+                    price = 0;
+                }
+                
+                return price;
+            }
         }
 
         private decimal ParseHtml(string html)

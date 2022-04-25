@@ -57,6 +57,8 @@ namespace Website.Backend.Services
         {
             Message domainModel = entity.ToDomain();
 
+            domainModel.UpdatedDateTime = DateTime.UtcNow;
+
             Message updatedMessage = await _messageRepository.Update(domainModel);
 
             return updatedMessage.ToModel();

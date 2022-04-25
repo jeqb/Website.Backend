@@ -57,6 +57,17 @@ namespace Website.Backend.Controllers
             return Created("api/Message", createdMessage);
         }
 
+
+        // PUT api/<MessageController>
+        [HttpPut]
+        [ProducesResponseType(typeof(MessageModel), 204)]
+        public async Task<IActionResult> Update(MessageModel message)
+        {
+            MessageModel updatedMessage = await _messageService.Update(message);
+
+            return Ok(updatedMessage);
+        }
+
         // DELETE api/<MessageController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]

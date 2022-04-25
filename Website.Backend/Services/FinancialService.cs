@@ -1,24 +1,37 @@
-﻿using Website.Backend.Models;
+﻿using Website.Backend.Infrastructure.Interfaces;
+using Website.Backend.Models;
 using Website.Backend.Services.Interfaces;
 
 namespace Website.Backend.Services
 {
     public class FinancialService : IFinancialService
     {
-        public FinancialService()
-        {
+        private readonly ICryptoCurrencyService _cryptoCurrencyService;
 
+        private readonly IGoldService _goldService;
+
+        public FinancialService(ICryptoCurrencyService cryptoCurrencyService, IGoldService goldService)
+        {
+            _cryptoCurrencyService = cryptoCurrencyService;
+
+            _goldService = goldService;
         }
 
         public async Task<FinancialInformationModel> GetFinancialInformationAsync()
         {
-            await Task.Yield();
+            Task<decimal> bitcoinTask = _cryptoCurrencyService.GetBtcPriceInUsd();
+            Task<decimal> goldTask = _goldService.GetSpotPriceInUsd();
+
+            await Task.WhenAll(bitcoinTask, goldTask);
+
+            decimal bitcoinPrice = bitcoinTask.Result;
+            decimal goldPrice = goldTask.Result;
 
             return new FinancialInformationModel
             {
                 // reconsider decimal. maybe just use double.
-                BitcoinPrice = (decimal)40000.45,
-                GoldSpotPrice = (decimal)2000.00,
+                BitcoinPrice = bitcoinPrice,
+                GoldSpotPrice = goldPrice
             };
         }
     }

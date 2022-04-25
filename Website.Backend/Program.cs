@@ -3,6 +3,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Website.Backend.Domain.Repositories;
 using Website.Backend.Domain.Repositories.Interfaces;
+using Website.Backend.Infrastructure;
+using Website.Backend.Infrastructure.Interfaces;
 using Website.Backend.Services;
 using Website.Backend.Services.Interfaces;
 
@@ -45,11 +47,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddSingleton<IRepositoryFactory, RepositoryFactory>();
-
 builder.Services.AddSingleton<ILoginService, LoginService>();
-
 builder.Services.AddSingleton<IMessageService, MessageService>();
+builder.Services.AddSingleton<IFinancialService, FinancialService>();
+
+// infrastructure
+builder.Services.AddSingleton<ICryptoCurrencyService, YahooBtcPriceScraper>();
+builder.Services.AddSingleton<IGoldService, KitcoGoldSpotPriceScraper>();
 
 var app = builder.Build();
 

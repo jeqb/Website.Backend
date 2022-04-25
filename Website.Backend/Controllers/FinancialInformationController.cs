@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Website.Backend.Models;
-using Website.Backend.Services;
 using Website.Backend.Services.Interfaces;
 
 namespace Website.Backend.Controllers
@@ -27,9 +25,6 @@ namespace Website.Backend.Controllers
         [ProducesResponseType(typeof(FinancialInformationModel), 200)]
         public async Task<IActionResult> Get()
         {
-            // TODO: due to api rate limiting, probably need to make a background
-            // process that updates a table every N minutes. Then there is a service
-            // that reads the LATEST results from that/those tables.
             FinancialInformationModel info = await _financialService.GetFinancialInformationAsync();
 
             return Ok(info);

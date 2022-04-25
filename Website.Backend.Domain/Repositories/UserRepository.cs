@@ -30,7 +30,7 @@ namespace Website.Backend.Domain.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<User> GetById(int id)
+        public async Task<User> GetById(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -45,7 +45,7 @@ namespace Website.Backend.Domain.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(User entity)
         {
             throw new NotImplementedException();
         }

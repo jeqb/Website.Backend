@@ -22,8 +22,9 @@ namespace Website.Backend.Services
             return createdModel.ToModel();
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(Guid id)
         {
+            // await _messageRepository.Delete(id);
             throw new NotImplementedException();
         }
 
@@ -36,9 +37,11 @@ namespace Website.Backend.Services
                 );
         }
 
-        public async Task<MessageModel> GetById(int id)
+        public async Task<MessageModel> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            Message message = await _messageRepository.GetById(id);
+
+            return message.ToModel();
         }
 
         public async Task<MessageModel> Update(MessageModel entity)

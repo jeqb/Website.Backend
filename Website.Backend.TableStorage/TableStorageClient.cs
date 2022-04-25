@@ -130,6 +130,26 @@ namespace Website.Backend.TableStorage
             return messages;
         }
 
+        public async Task<MessageEntity?> GetMessageById(Guid partitionKey)
+        {
+            TableClient messageTableClient = _createTableClient(_messagesTable);
+
+            AsyncPageable<MessageEntity> queryResultsFilter = messageTableClient.QueryAsync<MessageEntity>(
+                message => message.PartitionKey == partitionKey.ToString()
+                );
+
+            List<MessageEntity> messages = new();
+
+            await foreach (MessageEntity message in queryResultsFilter)
+            {
+                messages.Add(message);
+            }
+
+            // TODO: something about the nullability. probably make the return value
+            // on the interface nullable.
+            return messages.FirstOrDefault();
+        }
+
         /// <summary>
         /// Delete a message using it's PartitionKey and RowKey
         /// </summary>

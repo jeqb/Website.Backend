@@ -1,66 +1,72 @@
 ﻿using Website.Backend.Domain.Repositories.Interfaces;
+using Website.Backend.TableStorage;
+using Website.Backend.TableStorage.Entities;
+using Website.Backend.Domain.Extensions;
 
 namespace Website.Backend.Domain.Repositories
 {
+    /// <summary>
+    /// this is tightly coupled to Azure Table Storage for now :(
+    /// </summary>
     public class MessageRepository : IRepository<Message>
     {
-        // TODO: inject database connection here.
-        public MessageRepository()
-        {
+        private readonly TableStorageClient _tableStorageClient;
 
+        public MessageRepository(TableStorageClient tableStorageClient)
+        {
+            _tableStorageClient = tableStorageClient;
         }
 
         public async Task<Message> Create(Message entity)
         {
-            Task.Yield();
+            entity.Id = Guid.NewGuid();
+            entity.CreatedDateTime = DateTime.UtcNow;
+            entity.UpdatedDateTime = DateTime.UtcNow;
+
+            MessageEntity messageEntity = entity.ToTableEntity();
+
+            await _tableStorageClient.InsertMessageAsync(messageEntity);
 
             return entity;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(Message entity)
         {
-            throw new NotImplementedException();
+            MessageEntity messageEntity = entity.ToTableEntity();
+
+            await _tableStorageClient.DeleteMessage(messageEntity.PartitionKey, messageEntity.RowKey);
         }
 
         public async Task<IEnumerable<Message>> GetAll()
         {
-            return new List<Message>
-            {
-                new Message
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Joe",
-                    Email = "joe@foo.com",
-                    Content = "YOu SUCK!!!",
-                    CreatedDateTime = DateTime.Now,
-                },
-                new Message
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Bob",
-                    Email = "bob@foo.com",
-                    Content = "YOu SUCK!!!",
-                    CreatedDateTime = DateTime.Now,
-                },
-                new Message
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Billy",
-                    Email = "billy@foo.com",
-                    Content = "YOu SUCK!!!",
-                    CreatedDateTime = DateTime.Now,
-                }
-            };
+            IEnumerable<MessageEntity> messageEntities = await _tableStorageClient.GetAllMessagesAsync();
+
+            return messageEntities.Select(
+                (message) => message.ToDomain()
+                );
         }
 
-        public async Task<Message> GetById(int id)
+        public async Task<Message> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            MessageEntity messageEntity = await _tableStorageClient.GetMessageById(id);
+
+            if (messageEntity == null)
+            {
+                return new Message();
+            }
+            else
+            {
+                return messageEntity.ToDomain();
+            }
         }
 
         public async Task<Message> Update(Message entity)
         {
-            throw new NotImplementedException();
+            MessageEntity messageEntity = entity.ToTableEntity();
+
+            await _tableStorageClient.UpdateMessageAsync(messageEntity);
+
+            return messageEntity.ToDomain();
         }
     }
 }

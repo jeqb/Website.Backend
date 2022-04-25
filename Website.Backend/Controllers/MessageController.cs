@@ -37,9 +37,11 @@ namespace Website.Backend.Controllers
         // GET api/<MessageController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(MessageModel), 200)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(string id)
         {
-            MessageModel message = await _messageService.GetById(id);
+            Guid guid = Guid.Parse(id);
+
+            MessageModel message = await _messageService.GetById(guid);
 
             return Ok(message);
         }
@@ -58,9 +60,11 @@ namespace Website.Backend.Controllers
         // DELETE api/<MessageController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            await _messageService.Delete(id);
+            Guid guid = Guid.Parse(id);
+
+            await _messageService.Delete(guid);
 
             return Ok();
         }

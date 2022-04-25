@@ -49,15 +49,26 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddSingleton<IRepositoryFactory, RepositoryFactory>();
+// this project
 builder.Services.AddSingleton<ILoginService, LoginService>();
 builder.Services.AddSingleton<IMessageService, MessageService>();
 builder.Services.AddSingleton<IFinancialService, FinancialService>();
+
+// Domain
+builder.Services.AddSingleton<IRepositoryFactory, RepositoryFactory>((serviceProvider) =>
+{
+    return new RepositoryFactory(
+            serviceProvider.GetService<IConfiguration>()["AzureTableStorage:StorageUri"],
+            serviceProvider.GetService<IConfiguration>()["AzureTableStorage:StorageAccountName"],
+            serviceProvider.GetService<IConfiguration>()["AzureTableStorage:StorageAccountKey"]
+            );
+});
 
 // infrastructure
 builder.Services.AddSingleton<ICryptoCurrencyService, YahooBtcPriceScraper>();
 builder.Services.AddSingleton<IGoldService, KitcoGoldSpotPriceScraper>();
 builder.Services.AddSingleton<IStockMarketService, MarketWatchScraper>();
+
 
 var app = builder.Build();
 

@@ -389,3 +389,4 @@ FodyWeavers.xsd
 
 # added by me
 appsettings.json
+appsettings.Development.json

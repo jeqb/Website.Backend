@@ -24,8 +24,17 @@ namespace Website.Backend.Services
 
         public async Task Delete(Guid id)
         {
-            // await _messageRepository.Delete(id);
-            throw new NotImplementedException();
+            Message message = await _messageRepository.GetById(id);
+
+            // no message was found
+            if (message.Id != id)
+            {
+                return;
+            }
+            else
+            {
+                await _messageRepository.Delete(message);
+            }
         }
 
         public async Task<IEnumerable<MessageModel>> GetAll()
@@ -46,7 +55,11 @@ namespace Website.Backend.Services
 
         public async Task<MessageModel> Update(MessageModel entity)
         {
-            throw new NotImplementedException();
+            Message domainModel = entity.ToDomain();
+
+            Message updatedMessage = await _messageRepository.Update(domainModel);
+
+            return updatedMessage.ToModel();
         }
     }
 }

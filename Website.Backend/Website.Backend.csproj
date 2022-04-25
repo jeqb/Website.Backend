@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Website.Backend.Domain\Website.Backend.Domain.csproj" />
+    <ProjectReference Include="..\Website.Backend.Infrastructure\Website.Backend.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -41,6 +41,8 @@ namespace Website.Backend.Domain.Repositories
         {
             IEnumerable<MessageEntity> messageEntities = await _tableStorageClient.GetAllMessagesAsync();
 
+            messageEntities = messageEntities.OrderByDescending(x => x.CreatedDateTime).ToList();
+
             return messageEntities.Select(
                 (message) => message.ToDomain()
                 );

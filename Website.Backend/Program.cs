@@ -68,7 +68,13 @@ builder.Services.AddSingleton<IRepositoryFactory, RepositoryFactory>((servicePro
 builder.Services.AddSingleton<ICryptoCurrencyService, YahooBtcPriceScraper>();
 builder.Services.AddSingleton<IGoldService, KitcoGoldSpotPriceScraper>();
 builder.Services.AddSingleton<IStockMarketService, MarketWatchScraper>();
-builder.Services.AddSingleton<ICredentialsHasher, CredentialsHasher>();
+builder.Services.AddSingleton<ICryptographyUtility, CryptographyUtility>((serviceProvider) =>
+{
+    return new CryptographyUtility(
+            serviceProvider.GetService<IConfiguration>()["Jwt:Key"],
+            serviceProvider.GetService<IConfiguration>()["Jwt:Issuer"]
+            );
+});
 
 
 var app = builder.Build();

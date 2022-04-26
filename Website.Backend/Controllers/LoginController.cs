@@ -31,12 +31,10 @@ namespace Website.Backend.Controllers
 
             IActionResult response = Unauthorized();
 
-            UserModel? user = await _loginService.AuthenticateUserCredentials(login);
+            string? tokenString = await _loginService.AuthenticateUserCredentials(login);
 
-            if (user != null)
-            {
-                var tokenString = await _loginService.GenerateJsonWebToken(user);
-                
+            if (tokenString != null)
+            {   
                 response = Ok(new { token = tokenString });
             }
 

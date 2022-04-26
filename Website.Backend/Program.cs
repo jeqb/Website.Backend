@@ -68,6 +68,7 @@ builder.Services.AddSingleton<IRepositoryFactory, RepositoryFactory>((servicePro
 builder.Services.AddSingleton<ICryptoCurrencyService, YahooBtcPriceScraper>();
 builder.Services.AddSingleton<IGoldService, KitcoGoldSpotPriceScraper>();
 builder.Services.AddSingleton<IStockMarketService, MarketWatchScraper>();
+builder.Services.AddSingleton<ICredentialsHasher, CredentialsHasher>();
 
 
 var app = builder.Build();

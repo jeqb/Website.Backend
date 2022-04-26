@@ -31,7 +31,7 @@ namespace Website.Backend.Controllers
 
             IActionResult response = Unauthorized();
 
-            UserModel user = await _loginService.AuthenticateUserCredentials(login);
+            UserModel? user = await _loginService.AuthenticateUserCredentials(login);
 
             if (user != null)
             {

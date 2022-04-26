@@ -5,6 +5,7 @@ using System.Text;
 using Website.Backend.Domain;
 using Website.Backend.Domain.Repositories.Interfaces;
 using Website.Backend.Extensions;
+using Website.Backend.Infrastructure.Interfaces;
 using Website.Backend.Models;
 using Website.Backend.Services.Interfaces;
 
@@ -18,13 +19,18 @@ namespace Website.Backend.Services
 
         private readonly IUserRepository _userRepository;
 
-        public LoginService(IConfiguration config, IRepositoryFactory repositoryFactory)
+        private readonly ICredentialsHasher _credentialsHasher;
+
+        public LoginService(IConfiguration config, IRepositoryFactory repositoryFactory,
+            ICredentialsHasher credentialsHasher)
         {
             _key = config["Jwt:Key"];
 
             _issuer = config["Jwt:Issuer"];
 
             _userRepository = repositoryFactory.CreateUserRepository();
+
+            _credentialsHasher = credentialsHasher;
         }
 
         /// <summary>
@@ -34,20 +40,32 @@ namespace Website.Backend.Services
         /// <param name="loginCredentials"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<UserModel> AuthenticateUserCredentials(LoginCredentialsModel loginCredentials)
+        public async Task<UserModel?> AuthenticateUserCredentials(LoginCredentialsModel loginCredentials)
         {
             User user = await _userRepository.GetUserByEmail(loginCredentials.EmailAddress);
 
             if (user == null)
             {
-                return new UserModel
-                {
-                    Id = Guid.NewGuid(),
-                };
+                // no user found
+                return null;
             }
             else
             {
-                return user.ToModel();
+                string providedPassword = loginCredentials.Password;
+                string retrievedSalt = user.Salt;
+
+                string hashToCheck = _credentialsHasher.HashCredentials(providedPassword, retrievedSalt);
+
+                if (hashToCheck == user.PasswordHash)
+                {
+                    // valid credentials provided
+                    return user.ToModel();
+                }
+                else
+                {
+                    // invalid credentials provided
+                    return null;
+                }
             }
         }
 

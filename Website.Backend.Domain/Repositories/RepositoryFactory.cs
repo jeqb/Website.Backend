@@ -31,7 +31,7 @@ namespace Website.Backend.Domain.Repositories
 
         public IUserRepository CreateUserRepository()
         {
-            return new UserRepository();
+            return new UserRepository(_tableStorageClient);
         }
     }
 }

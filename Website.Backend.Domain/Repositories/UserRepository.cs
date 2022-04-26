@@ -1,28 +1,17 @@
 ﻿using Website.Backend.Domain.Repositories.Interfaces;
+using Website.Backend.TableStorage;
+using Website.Backend.TableStorage.Entities;
+using Website.Backend.Domain.Extensions;
 
 namespace Website.Backend.Domain.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        #region Private Properties
+        private readonly TableStorageClient _tableStorageClient;
 
-        private readonly List<User> _users = new List<User>
+        public UserRepository(TableStorageClient tableStorageClient)
         {
-            new User
-            {
-                Id = Guid.NewGuid(),
-                EmailAddress = "bob@foo.com",
-
-                CreatedDateTime = DateTime.Now,
-            }
-        };
-
-        #endregion
-
-        // TODO: inject database connection here.
-        public UserRepository()
-        {
-
+            _tableStorageClient = tableStorageClient;
         }
 
         public async Task<IEnumerable<User>> GetAll()
@@ -50,15 +39,18 @@ namespace Website.Backend.Domain.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<User> GetUserByEmail(string email)
+        public async Task<User?> GetUserByEmail(string email)
         {
-            Task.Yield();
+            UserEntity? user = await _tableStorageClient.GetUserByEmailAsync(email);
 
-            return new User
+            if (user == null)
             {
-                EmailAddress = email,
-                CreatedDateTime = DateTime.Now,
-            };
+                return null;
+            }
+            else
+            {
+                return user.ToDomain();
+            }
         }
     }
 }

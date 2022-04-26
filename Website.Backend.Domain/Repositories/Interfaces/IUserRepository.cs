@@ -2,6 +2,6 @@
 {
     public interface IUserRepository : IRepository<User>
     {
-        public Task<User> GetUserByEmail(string email);
+        public Task<User?> GetUserByEmail(string email);
     }
 }

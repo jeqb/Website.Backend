@@ -52,5 +52,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'jeqb-backend'
-          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_650244DD36B7442697212DCFC60404DC }}
+          package: .

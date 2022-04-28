@@ -29,7 +29,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-/*
 // https://www.c-sharpcorner.com/article/jwt-json-web-token-authentication-in-asp-net-core/
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -76,7 +75,7 @@ builder.Services.AddSingleton<ICryptographyUtility, CryptographyUtility>((servic
             serviceProvider.GetService<IConfiguration>()["Jwt:Issuer"]
             );
 });
-*/
+
 
 var app = builder.Build();
 

@@ -21,6 +21,8 @@ builder.Services.AddCors(opt =>
             .WithExposedHeaders("WWW-Authenticate")
             .WithOrigins("http://localhost:3000")
             .WithOrigins("https://jeqb-frontend.azurewebsites.net")
+            .WithOrigins("https://jamesbonnerproject.com")
+            .WithOrigins("https://www.jamesbonnerproject.com")
             .AllowCredentials();
     });
 });

@@ -18,10 +18,12 @@ namespace Website.Backend.Infrastructure.Test
 
             string fileName = "ThankYouEmailBody.html";
 
+            StaticFileLoader target = new();
+
 
             // Act
 
-            string result = StaticFileLoader.GetFileString(fileName);
+            string result = target.GetFileString(fileName);
 
             bool containsSubString = result.Contains("<!DOCTYPE html>");
 

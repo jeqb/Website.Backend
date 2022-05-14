@@ -54,7 +54,15 @@ builder.Services.AddHttpClient();
 
 // this project
 builder.Services.AddSingleton<ILoginService, LoginService>();
-builder.Services.AddSingleton<IMessageService, MessageService>();
+builder.Services.AddSingleton<IMessageService, MessageService>((serviceProvider) =>
+{
+    return new MessageService(
+        serviceProvider.GetService<ILogger<MessageService>>(),
+        serviceProvider.GetService<IRepositoryFactory>(),
+        serviceProvider.GetService<IEmailNotificationService>(),
+        serviceProvider.GetService<IConfiguration>()["Notifications:OwnerEmail"]
+        );
+});
 builder.Services.AddSingleton<IFinancialService, FinancialService>();
 
 // Domain
@@ -77,6 +85,13 @@ builder.Services.AddSingleton<ICryptographyUtility, CryptographyUtility>((servic
             serviceProvider.GetService<IConfiguration>()["Jwt:Key"],
             serviceProvider.GetService<IConfiguration>()["Jwt:Issuer"]
             );
+});
+builder.Services.AddSingleton<IEmailNotificationService, EmailNotificationService>((serviceProvider) =>
+{
+    return new EmailNotificationService(
+        serviceProvider.GetService<IConfiguration>()["AzureTableStorage:QueueStorageConnectionString"],
+        serviceProvider.GetService<IConfiguration>()["AzureTableStorage:QueueName"]
+        );
 });
 
 

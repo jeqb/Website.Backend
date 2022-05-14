@@ -57,11 +57,18 @@ builder.Services.AddHttpClient();
 builder.Services.AddSingleton<ILoginService, LoginService>();
 builder.Services.AddSingleton<IMessageService, MessageService>((serviceProvider) =>
 {
+    // not sure how I feel about reading from disk every instantiation.
+    StaticFileLoader staticFileLoader = new StaticFileLoader();
+    string thankYouEmailBody = staticFileLoader.GetFileString("ThankYouEmailBody.html");
+    string ownerEmailBody = staticFileLoader.GetFileString("OwnerEmailNotificationTemplate.html");
+
     return new MessageService(
         serviceProvider.GetService<ILogger<MessageService>>(),
         serviceProvider.GetService<IRepositoryFactory>(),
         serviceProvider.GetService<IEmailNotificationService>(),
-        serviceProvider.GetService<IConfiguration>()["Notifications:OwnerEmail"]
+        serviceProvider.GetService<IConfiguration>()["Notifications:OwnerEmail"],
+        thankYouEmailBody,
+        ownerEmailBody
         );
 });
 builder.Services.AddSingleton<IFinancialService, FinancialService>();

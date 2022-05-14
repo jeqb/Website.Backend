@@ -17,8 +17,13 @@ namespace Website.Backend.Services
 
         private readonly string _ownerEmail;
 
+        private readonly string _thankYouEmailBody;
+
+        private readonly string _ownerEmailBody;
+
         public MessageService(ILogger<MessageService> logger, IRepositoryFactory repositoryFactory,
-            IEmailNotificationService emailNotificationService, string ownerEmail)
+            IEmailNotificationService emailNotificationService, string ownerEmail,
+            string thankYouEmailBody, string ownerEmailBody)
         {
             _logger = logger;
 
@@ -27,26 +32,35 @@ namespace Website.Backend.Services
             _emailNotificationService = emailNotificationService;
 
             _ownerEmail = ownerEmail;
+
+            _thankYouEmailBody = thankYouEmailBody;
+
+            _ownerEmailBody = ownerEmailBody;
         }
 
         public async Task<MessageModel> Create(MessageModel entity)
         {
             Message createdModel = await _messageRepository.Create(entity.ToDomain());
 
+            // for reponse to sender
             string toEmail = entity.Email;
             string subject = "Message Received";
-            // TODO: make this an html file or something. not just a lame string
-            string htmlBody = "Thank you for reaching out. The owner will reach out to you shortly.";
+            string htmlBody = _thankYouEmailBody;
+            htmlBody = htmlBody.Replace("{@Name}", entity.Name);
+
+            // owner notification
+            string ownerSubject = "New Website Inquiry";
+            string ownerBody = _ownerEmailBody;
+            ownerBody = ownerBody.Replace("{@Name}", entity.Name);
+            ownerBody = ownerBody.Replace("{@Email}", entity.Email);
 
             try
             {
                 // email person who sent the message
                 await _emailNotificationService.SendEmailAsync(toEmail, subject, htmlBody);
 
-                // TODO: make an html template for this too or something.
-                // mention who it's from.
-                await _emailNotificationService.SendEmailAsync(_ownerEmail, "New Website Inquiry",
-                    "New message received");
+                // email the owner
+                await _emailNotificationService.SendEmailAsync(_ownerEmail, ownerSubject, ownerBody);
             }
             catch (Exception ex)
             {

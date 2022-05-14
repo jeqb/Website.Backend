@@ -3,9 +3,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Website.Backend.Infrastructure.Interfaces;
 
-namespace Website.Backend.Infrastructure
+namespace Website.Backend.Infrastructure.Cryptography
 {
     public class CryptographyUtility : ICryptographyUtility
     {

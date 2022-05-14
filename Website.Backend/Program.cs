@@ -3,8 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Website.Backend.Domain.Repositories;
 using Website.Backend.Domain.Repositories.Interfaces;
-using Website.Backend.Infrastructure;
-using Website.Backend.Infrastructure.Interfaces;
+using Website.Backend.Infrastructure.Cryptography;
+using Website.Backend.Infrastructure.Email;
+using Website.Backend.Infrastructure.Finance;
 using Website.Backend.Services;
 using Website.Backend.Services.Interfaces;
 
@@ -54,7 +55,22 @@ builder.Services.AddHttpClient();
 
 // this project
 builder.Services.AddSingleton<ILoginService, LoginService>();
-builder.Services.AddSingleton<IMessageService, MessageService>();
+builder.Services.AddSingleton<IMessageService, MessageService>((serviceProvider) =>
+{
+    // not sure how I feel about reading from disk every instantiation.
+    StaticFileLoader staticFileLoader = new StaticFileLoader();
+    string thankYouEmailBody = staticFileLoader.GetFileString("ThankYouEmailBody.html");
+    string ownerEmailBody = staticFileLoader.GetFileString("OwnerEmailNotificationTemplate.html");
+
+    return new MessageService(
+        serviceProvider.GetService<ILogger<MessageService>>(),
+        serviceProvider.GetService<IRepositoryFactory>(),
+        serviceProvider.GetService<IEmailNotificationService>(),
+        serviceProvider.GetService<IConfiguration>()["Notifications:OwnerEmail"],
+        thankYouEmailBody,
+        ownerEmailBody
+        );
+});
 builder.Services.AddSingleton<IFinancialService, FinancialService>();
 
 // Domain
@@ -77,6 +93,13 @@ builder.Services.AddSingleton<ICryptographyUtility, CryptographyUtility>((servic
             serviceProvider.GetService<IConfiguration>()["Jwt:Key"],
             serviceProvider.GetService<IConfiguration>()["Jwt:Issuer"]
             );
+});
+builder.Services.AddSingleton<IEmailNotificationService, EmailNotificationService>((serviceProvider) =>
+{
+    return new EmailNotificationService(
+        serviceProvider.GetService<IConfiguration>()["AzureTableStorage:QueueStorageConnectionString"],
+        serviceProvider.GetService<IConfiguration>()["AzureTableStorage:QueueName"]
+        );
 });
 
 

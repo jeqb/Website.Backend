@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Website.Backend.Infrastructure.Finance;
 using Xunit;
 
 namespace Website.Backend.Infrastructure.Test

@@ -1,8 +1,7 @@
 ﻿using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
-using Website.Backend.Infrastructure.Interfaces;
 
-namespace Website.Backend.Infrastructure
+namespace Website.Backend.Infrastructure.Finance
 {
     public class YahooBtcPriceScraper : ICryptoCurrencyService
     {

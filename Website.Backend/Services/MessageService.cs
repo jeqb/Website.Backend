@@ -47,12 +47,14 @@ namespace Website.Backend.Services
             string subject = "Message Received";
             string htmlBody = _thankYouEmailBody;
             htmlBody = htmlBody.Replace("{@Name}", entity.Name);
+            htmlBody = htmlBody.Replace("\r\n", string.Empty);
 
             // owner notification
             string ownerSubject = "New Website Inquiry";
             string ownerBody = _ownerEmailBody;
             ownerBody = ownerBody.Replace("{@Name}", entity.Name);
             ownerBody = ownerBody.Replace("{@Email}", entity.Email);
+            ownerBody = ownerBody.Replace("\r\n", string.Empty);
 
             try
             {

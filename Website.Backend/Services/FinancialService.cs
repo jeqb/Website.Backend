@@ -1,4 +1,4 @@
-﻿using Website.Backend.Infrastructure.Interfaces;
+﻿using Website.Backend.Infrastructure.Finance;
 using Website.Backend.Models;
 using Website.Backend.Services.Interfaces;
 

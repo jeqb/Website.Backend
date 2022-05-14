@@ -3,8 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Website.Backend.Domain.Repositories;
 using Website.Backend.Domain.Repositories.Interfaces;
-using Website.Backend.Infrastructure;
-using Website.Backend.Infrastructure.Interfaces;
+using Website.Backend.Infrastructure.Cryptography;
+using Website.Backend.Infrastructure.Email;
+using Website.Backend.Infrastructure.Finance;
 using Website.Backend.Services;
 using Website.Backend.Services.Interfaces;
 

@@ -1,7 +1,7 @@
 ﻿using Website.Backend.Domain;
 using Website.Backend.Domain.Repositories.Interfaces;
 using Website.Backend.Extensions;
-using Website.Backend.Infrastructure.Interfaces;
+using Website.Backend.Infrastructure.Email;
 using Website.Backend.Models;
 using Website.Backend.Services.Interfaces;
 

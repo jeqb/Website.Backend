@@ -1,10 +1,7 @@
 ﻿using Azure.Storage.Queues;
 using System.Text.Json;
-using System.Text.Encodings;
-using Website.Backend.Infrastructure.Interfaces;
-using Website.Backend.Infrastructure.Models;
 
-namespace Website.Backend.Infrastructure
+namespace Website.Backend.Infrastructure.Email
 {
     public class EmailNotificationService : IEmailNotificationService
     {

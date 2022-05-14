@@ -1,4 +1,4 @@
-﻿namespace Website.Backend.Infrastructure.Interfaces
+﻿namespace Website.Backend.Infrastructure.Finance
 {
     public interface ICryptoCurrencyService
     {

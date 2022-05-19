@@ -2,7 +2,7 @@
 {
     public class MessageModel
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string Name { get; set; } = String.Empty;
 
@@ -10,6 +10,6 @@
 
         public string Content { get; set; } = String.Empty;
 
-        public DateTimeOffset Created { get; set; }
+        public DateTime? Created { get; set; }
     }
 }

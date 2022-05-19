@@ -1,4 +1,5 @@
 ﻿using Website.Backend.Domain;
+using Website.Backend.Domain.Repositories.Factories;
 using Website.Backend.Domain.Repositories.Interfaces;
 using Website.Backend.Extensions;
 using Website.Backend.Infrastructure.Email;
@@ -40,7 +41,9 @@ namespace Website.Backend.Services
 
         public async Task<MessageModel> Create(MessageModel entity)
         {
-            Message createdModel = await _messageRepository.Create(entity.ToDomain());
+            Message domainRequest = entity.ToDomain();
+
+            Message createdModel = await _messageRepository.CreateAsync(domainRequest);
 
             // for reponse to sender
             string toEmail = entity.Email;
@@ -72,35 +75,42 @@ namespace Website.Backend.Services
             return createdModel.ToModel();
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(string id)
         {
-            Message message = await _messageRepository.GetById(id);
+            Message? message = await _messageRepository.GetByIdAsync(id);
 
             // no message was found
-            if (message.Id != id)
+            if (message == null)
             {
                 return;
             }
             else
             {
-                await _messageRepository.Delete(message);
+                await _messageRepository.DeleteAsync(message);
             }
         }
 
         public async Task<IEnumerable<MessageModel>> GetAll()
         {
-            IEnumerable<Message> results = await _messageRepository.GetAll();
+            IEnumerable<Message> results = await _messageRepository.GetAllAsync();
 
             return results.Select(
                 (message) => message.ToModel()
                 );
         }
 
-        public async Task<MessageModel> GetById(Guid id)
+        public async Task<MessageModel?> GetById(string id)
         {
-            Message message = await _messageRepository.GetById(id);
+            Message? message = await _messageRepository.GetByIdAsync(id);
 
-            return message.ToModel();
+            if (message == null)
+            {
+                return null;
+            }
+            else
+            {
+                return message.ToModel();
+            }
         }
 
         public async Task<MessageModel> Update(MessageModel entity)
@@ -109,7 +119,10 @@ namespace Website.Backend.Services
 
             domainModel.UpdatedDateTime = DateTime.UtcNow;
 
-            Message updatedMessage = await _messageRepository.Update(domainModel);
+            await _messageRepository.UpdateAsync(domainModel);
+
+            // the null coalescing just makes squigelly go away.
+            Message updatedMessage = await _messageRepository.GetByIdAsync(domainModel.Id.ToString()) ?? new();
 
             return updatedMessage.ToModel();
         }

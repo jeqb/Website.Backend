@@ -1,8 +1,10 @@
-﻿namespace Website.Backend.Domain
+﻿using Azure;
+
+namespace Website.Backend.Domain
 {
     public class User
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string EmailAddress { get; set; } = String.Empty;
 
@@ -10,8 +12,8 @@
 
         public string Salt { get; set; } = String.Empty;
 
-        public DateTimeOffset CreatedDateTime { get; set; }
+        public DateTime? CreatedDateTime { get; set; }
 
-        public DateTimeOffset UpdatedDateTime { get; set; }
+        public DateTime? UpdatedDateTime { get; set; }
     }
 }

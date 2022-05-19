@@ -1,34 +1,33 @@
-﻿using Website.Backend.TableStorage.Entities;
+﻿using Azure.Data.Tables;
 
 namespace Website.Backend.Domain.Extensions
 {
     public static class MessageExtensions
     {
-        public static Message ToDomain(this MessageEntity messageEntity)
+        public static Message ToMessage(this TableEntity messageEntity)
         {
             return new Message
             {
-                Id = Guid.Parse(messageEntity.PartitionKey),
-                Email = messageEntity.RowKey,
-                Name = messageEntity.Name,
-                Content = messageEntity.Content,
-                IsRead = messageEntity.IsRead,
-                CreatedDateTime = messageEntity.CreatedDateTime,
-                UpdatedDateTime = messageEntity.UpdatedDateTime,
+                Id = long.Parse(messageEntity.RowKey),
+                EmailAddress = messageEntity.GetString("EmailAddress"),
+                Name = messageEntity.GetString("Name"),
+                Content = messageEntity.GetString("Content"),
+                IsRead = messageEntity.GetBoolean("IsRead") ?? false,
+                CreatedDateTime = messageEntity.GetDateTime("CreatedDateTime"),
+                UpdatedDateTime = messageEntity.GetDateTime("UpdatedDateTime"),
             };
         }
 
-        public static MessageEntity ToTableEntity(this Message domainModel)
+        public static TableEntity ToTableEntity(this Message domainModel)
         {
-            return new MessageEntity
+            return new("Message", domainModel.Id.ToString())
             {
-                PartitionKey = domainModel.Id.ToString(),
-                RowKey = domainModel.Email,
-                Name = domainModel.Name,
-                Content = domainModel.Content,
-                IsRead= domainModel.IsRead,
-                CreatedDateTime= domainModel.CreatedDateTime,
-                UpdatedDateTime= domainModel.UpdatedDateTime,
+                { "EmailAddress", domainModel.EmailAddress },
+                { "Name", domainModel.Name },
+                { "Content", domainModel.Content },
+                { "IsRead", domainModel.IsRead },
+                { "CreatedDateTime", domainModel.CreatedDateTime },
+                { "UpdatedDateTime", domainModel.UpdatedDateTime },
             };
         }
     }

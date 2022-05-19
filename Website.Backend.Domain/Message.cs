@@ -2,9 +2,9 @@
 {
     public class Message
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
-        public string Email { get; set; } = String.Empty;
+        public string EmailAddress { get; set; } = String.Empty;
 
         public string Name { get; set; } = String.Empty;
 
@@ -12,8 +12,8 @@
 
         public bool IsRead { get; set; }
 
-        public DateTimeOffset CreatedDateTime { get; set; }
+        public DateTime? CreatedDateTime { get; set; }
 
-        public DateTimeOffset UpdatedDateTime { get; set; }
+        public DateTime? UpdatedDateTime { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace Website.Backend.Extensions
             {
                 Id = domainModel.Id,
                 Name = domainModel.Name,
-                Email = domainModel.Email,
+                Email = domainModel.EmailAddress,
                 Content = domainModel.Content,
                 Created = domainModel.CreatedDateTime,
             };
@@ -23,7 +23,7 @@ namespace Website.Backend.Extensions
             {
                 Id = model.Id,
                 Name = model.Name,
-                Email = model.Email,
+                EmailAddress = model.Email,
                 Content = model.Content,
                 CreatedDateTime = model.Created,
             };

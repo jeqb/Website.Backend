@@ -1,4 +1,6 @@
-﻿namespace Website.Backend.Domain.Repositories.Interfaces
+﻿using Website.Backend.Domain.Repositories.Interfaces;
+
+namespace Website.Backend.Domain.Repositories.Factories
 {
     public interface IRepositoryFactory
     {

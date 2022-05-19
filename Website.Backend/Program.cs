@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Website.Backend.Domain.Repositories;
-using Website.Backend.Domain.Repositories.Interfaces;
+using Website.Backend.Domain.Repositories.Factories;
 using Website.Backend.Infrastructure.Cryptography;
 using Website.Backend.Infrastructure.Email;
 using Website.Backend.Infrastructure.Finance;
@@ -74,12 +73,13 @@ builder.Services.AddSingleton<IMessageService, MessageService>((serviceProvider)
 builder.Services.AddSingleton<IFinancialService, FinancialService>();
 
 // Domain
-builder.Services.AddSingleton<IRepositoryFactory, RepositoryFactory>((serviceProvider) =>
+builder.Services.AddSingleton<IRepositoryFactory, StorageTableRepositoryFactory>((serviceProvider) =>
 {
-    return new RepositoryFactory(
+    return new StorageTableRepositoryFactory(
             serviceProvider.GetService<IConfiguration>()["AzureTableStorage:StorageUri"],
             serviceProvider.GetService<IConfiguration>()["AzureTableStorage:StorageAccountName"],
-            serviceProvider.GetService<IConfiguration>()["AzureTableStorage:StorageAccountKey"]
+            serviceProvider.GetService<IConfiguration>()["AzureTableStorage:StorageAccountKey"],
+            serviceProvider.GetService<IConfiguration>()["AzureTableStorage:StorageTableName"]
             );
 });
 

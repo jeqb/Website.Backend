@@ -6,14 +6,21 @@ namespace Website.Backend.Domain.Extensions
     {
         public static User ToUser(this TableEntity userEntity)
         {
+            long Id = long.Parse(userEntity.RowKey);
+            string EmailAddress = userEntity.GetString("EmailAddress");
+            string PasswordHash = userEntity.GetString("PasswordHash");
+            string Salt = userEntity.GetString("Salt");
+            DateTime? CreatedDateTime = userEntity.GetDateTime("CreatedDateTime");
+            DateTime? UpdatedDateTime = userEntity.GetDateTime("UpdatedDateTime");
+
             return new User
             {
-                Id = Guid.Parse(userEntity.RowKey),
-                EmailAddress = userEntity.GetString("EmailAddress"),
-                PasswordHash = userEntity.GetString("PasswordHash"),
-                Salt = userEntity.GetString("Salt"),
-                CreatedDateTime = userEntity.GetDateTime("CreatedDateTime"),
-                UpdatedDateTime = userEntity.GetDateTime("UpdatedDateTime"),
+                Id = Id,
+                EmailAddress = EmailAddress,
+                PasswordHash = PasswordHash,
+                Salt = Salt,
+                CreatedDateTime = CreatedDateTime,
+                UpdatedDateTime = UpdatedDateTime
             };
         }
 

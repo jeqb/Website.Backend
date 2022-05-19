@@ -20,7 +20,7 @@ namespace Website.Backend.Domain.Repositories.Implementations
             _storageTableClient = storageTableClient;
         }
 
-        private async Task<long> GetMaxRowKey()
+        private async Task<long> GetMaxRowKeyAsync()
         {
             IEnumerable<Message> entities = await GetAllAsync();
 
@@ -39,7 +39,7 @@ namespace Website.Backend.Domain.Repositories.Implementations
 
         public async Task<Message> CreateAsync(Message entity)
         {
-            long highestRowKey = await GetMaxRowKey();
+            long highestRowKey = await GetMaxRowKeyAsync();
             long nextId = highestRowKey + 1;
             entity.Id = nextId;
             entity.CreatedDateTime = DateTime.UtcNow;

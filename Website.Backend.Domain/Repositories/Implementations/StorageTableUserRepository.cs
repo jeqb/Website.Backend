@@ -17,19 +17,41 @@ namespace Website.Backend.Domain.Repositories.Implementations
             _storageTableClient = storageTableClient;
         }
 
+        private async Task<long> GetMaxRowKeyAsync()
+        {
+            IEnumerable<User> entities = await GetAllAsync();
+
+            if (entities.Count() == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                // possibly performance hit over time as size increases.
+                User maxUser = entities.OrderByDescending(e => e.Id).First();
+
+                return maxUser.Id;
+            }
+        }
+
         public async Task<User> CreateAsync(User entity)
         {
-            entity.Id = Guid.NewGuid();
+            long highestRowKey = await GetMaxRowKeyAsync();
+            long nextId = highestRowKey + 1;
+            entity.Id = nextId; ;
             entity.CreatedDateTime = DateTime.UtcNow;
             entity.UpdatedDateTime = DateTime.UtcNow;
 
-            TableEntity messageEntity = entity.ToTableEntity();
+            TableEntity userEntity = entity.ToTableEntity();
 
-            // TODO: decide what to do with Response object
-            // possibly just a task?
-            Response response = await _storageTableClient.CreateEntityAsync(messageEntity);
+            Response response = await _storageTableClient.CreateEntityAsync(userEntity);
 
-            return entity;
+            string partitionKey = "Message";
+            string rowKey = nextId.ToString();
+
+            IEnumerable<TableEntity> entites = await _storageTableClient.GetEntitiesAsync(partitionKey, rowKey);
+
+            return entites.First().ToUser();
         }
 
         public async Task DeleteAsync(User entity)

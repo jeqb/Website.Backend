@@ -4,7 +4,7 @@ namespace Website.Backend.Domain
 {
     public class User
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string EmailAddress { get; set; } = String.Empty;
 

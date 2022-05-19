@@ -6,7 +6,7 @@ namespace Website.Backend.Services.Interfaces
     {
         public Task<IEnumerable<MessageModel>> GetAll();
 
-        public Task<MessageModel> GetById(Guid id);
+        public Task<MessageModel?> GetById(Guid id);
 
         public Task<MessageModel> Create(MessageModel entity);
 

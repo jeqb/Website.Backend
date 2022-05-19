@@ -2,14 +2,15 @@
 {
     public interface IRepository<T> where T : class
     {
-        public Task<IEnumerable<T>> GetAll();
+        public Task<IEnumerable<T>> GetAllAsync();
+        // TODO: change this to a string. do the Guid up higher
+        // so you can switch over to autoincrementing rowKeys later.
+        public Task<T?> GetByIdAsync(Guid id);
 
-        public Task<T> GetById(Guid id);
+        public Task<T> CreateAsync(T entity);
 
-        public Task<T> Create(T entity);
+        public Task UpdateAsync(T entity);
 
-        public Task<T> Update(T entity);
-
-        public Task Delete(T entity);
+        public Task DeleteAsync(T entity);
     }
 }

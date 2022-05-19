@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website.Backend.Infrastruct
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website.Backend.Infrastructure.Test", "Website.Backend.Infrastructure.Test\Website.Backend.Infrastructure.Test.csproj", "{067BEABE-4D89-4E64-832D-63938B51EDA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website.Backend.TableStorage.Test", "Website.Backend.TableStorage.Test\Website.Backend.TableStorage.Test.csproj", "{2BD3DDFB-607E-44BA-8993-2A03075BDA6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{067BEABE-4D89-4E64-832D-63938B51EDA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{067BEABE-4D89-4E64-832D-63938B51EDA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{067BEABE-4D89-4E64-832D-63938B51EDA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BD3DDFB-607E-44BA-8993-2A03075BDA6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD3DDFB-607E-44BA-8993-2A03075BDA6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD3DDFB-607E-44BA-8993-2A03075BDA6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD3DDFB-607E-44BA-8993-2A03075BDA6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

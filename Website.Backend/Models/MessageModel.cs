@@ -10,6 +10,6 @@
 
         public string Content { get; set; } = String.Empty;
 
-        public DateTimeOffset Created { get; set; }
+        public DateTime? Created { get; set; }
     }
 }

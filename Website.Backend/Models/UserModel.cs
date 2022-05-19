@@ -10,8 +10,8 @@
 
         public string Salt { get; set; } = String.Empty;
 
-        public DateTimeOffset CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
-        public DateTimeOffset UpdatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
     }
 }

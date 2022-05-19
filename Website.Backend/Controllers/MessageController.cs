@@ -39,11 +39,16 @@ namespace Website.Backend.Controllers
         [ProducesResponseType(typeof(MessageModel), 200)]
         public async Task<IActionResult> Get(string id)
         {
-            Guid guid = Guid.Parse(id);
+            MessageModel? message = await _messageService.GetById(id);
 
-            MessageModel message = await _messageService.GetById(guid);
-
-            return Ok(message);
+            if (message != null)
+            {
+                return Ok(message);
+            }
+            else
+            {
+                return NotFound(message);
+            }
         }
 
         // POST api/<MessageController>
@@ -73,9 +78,7 @@ namespace Website.Backend.Controllers
         [ProducesResponseType(200)]
         public async Task<IActionResult> Delete(string id)
         {
-            Guid guid = Guid.Parse(id);
-
-            await _messageService.Delete(guid);
+            await _messageService.Delete(id);
 
             return Ok();
         }

@@ -73,9 +73,9 @@ namespace Website.Backend.Services
             return createdModel.ToModel();
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(string id)
         {
-            Message? message = await _messageRepository.GetByIdAsync(id.ToString());
+            Message? message = await _messageRepository.GetByIdAsync(id);
 
             // no message was found
             if (message == null)
@@ -97,9 +97,9 @@ namespace Website.Backend.Services
                 );
         }
 
-        public async Task<MessageModel?> GetById(Guid id)
+        public async Task<MessageModel?> GetById(string id)
         {
-            Message? message = await _messageRepository.GetByIdAsync(id.ToString());
+            Message? message = await _messageRepository.GetByIdAsync(id);
 
             if (message == null)
             {

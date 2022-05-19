@@ -49,10 +49,10 @@ namespace Website.Backend.Domain.Repositories.Implementations
             return entites.Select((entity) => entity.ToUser());
         }
 
-        public async Task<User?> GetByIdAsync(Guid id)
+        public async Task<User?> GetByIdAsync(string id)
         {
             string partitionKey = "User";
-            string rowKey = id.ToString();
+            string rowKey = id;
 
             IEnumerable<TableEntity> entites = await _storageTableClient.GetEntitiesAsync(partitionKey, rowKey);
 

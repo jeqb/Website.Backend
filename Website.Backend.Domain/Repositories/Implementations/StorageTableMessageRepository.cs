@@ -52,10 +52,10 @@ namespace Website.Backend.Domain.Repositories.Implementations
             return entites.Select((entity) => entity.ToMessage());
         }
 
-        public async Task<Message?> GetByIdAsync(Guid id)
+        public async Task<Message?> GetByIdAsync(string id)
         {
             string partitionKey = "Message";
-            string rowKey = id.ToString();
+            string rowKey = id;
 
             IEnumerable<TableEntity> entites = await _storageTableClient.GetEntitiesAsync(partitionKey, rowKey);
 

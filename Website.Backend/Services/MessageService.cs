@@ -75,7 +75,7 @@ namespace Website.Backend.Services
 
         public async Task Delete(Guid id)
         {
-            Message? message = await _messageRepository.GetByIdAsync(id);
+            Message? message = await _messageRepository.GetByIdAsync(id.ToString());
 
             // no message was found
             if (message == null)
@@ -99,7 +99,7 @@ namespace Website.Backend.Services
 
         public async Task<MessageModel?> GetById(Guid id)
         {
-            Message? message = await _messageRepository.GetByIdAsync(id);
+            Message? message = await _messageRepository.GetByIdAsync(id.ToString());
 
             if (message == null)
             {
@@ -120,7 +120,7 @@ namespace Website.Backend.Services
             await _messageRepository.UpdateAsync(domainModel);
 
             // the null coalescing just makes squigelly go away.
-            Message updatedMessage = await _messageRepository.GetByIdAsync(domainModel.Id) ?? new();
+            Message updatedMessage = await _messageRepository.GetByIdAsync(domainModel.Id.ToString()) ?? new();
 
             return updatedMessage.ToModel();
         }

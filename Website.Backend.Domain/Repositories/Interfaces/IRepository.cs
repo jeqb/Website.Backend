@@ -5,7 +5,7 @@
         public Task<IEnumerable<T>> GetAllAsync();
         // TODO: change this to a string. do the Guid up higher
         // so you can switch over to autoincrementing rowKeys later.
-        public Task<T?> GetByIdAsync(Guid id);
+        public Task<T?> GetByIdAsync(string id);
 
         public Task<T> CreateAsync(T entity);
 

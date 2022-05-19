@@ -75,10 +75,10 @@ namespace Website.Backend.Services
 
         public async Task Delete(Guid id)
         {
-            Message message = await _messageRepository.GetByIdAsync(id);
+            Message? message = await _messageRepository.GetByIdAsync(id);
 
             // no message was found
-            if (message.Id != id)
+            if (message == null)
             {
                 return;
             }

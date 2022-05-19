@@ -1,10 +1,8 @@
-﻿using Azure;
-
-namespace Website.Backend.Domain
+﻿namespace Website.Backend.Domain
 {
     public class Message
     {
-        public Guid Id { get; set; }
+        public long Id { get; set; }
 
         public string EmailAddress { get; set; } = String.Empty;
 

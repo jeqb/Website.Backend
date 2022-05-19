@@ -8,7 +8,7 @@ namespace Website.Backend.Domain.Extensions
         {
             return new Message
             {
-                Id = Guid.Parse(messageEntity.RowKey),
+                Id = long.Parse(messageEntity.RowKey),
                 EmailAddress = messageEntity.GetString("EmailAddress"),
                 Name = messageEntity.GetString("Name"),
                 Content = messageEntity.GetString("Content"),

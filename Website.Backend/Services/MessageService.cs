@@ -41,7 +41,9 @@ namespace Website.Backend.Services
 
         public async Task<MessageModel> Create(MessageModel entity)
         {
-            Message createdModel = await _messageRepository.CreateAsync(entity.ToDomain());
+            Message domainRequest = entity.ToDomain();
+
+            Message createdModel = await _messageRepository.CreateAsync(domainRequest);
 
             // for reponse to sender
             string toEmail = entity.Email;
